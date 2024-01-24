@@ -45,7 +45,11 @@ function hideElementsIfLargeModal() {
 
   if (modalEle) {
     modalEle.forEach((element) => {
-      if (!importantModals(element) && !isSmallHeader(element)) {
+      if (
+        !importantModals(element) &&
+        !isSmallHeader(element) &&
+        !isLeftModal(element)
+      ) {
         onScreenModal.push(element);
       }
     });
@@ -55,6 +59,18 @@ function hideElementsIfLargeModal() {
         modal.style.setProperty("display", "none", "important");
       });
     }
+  }
+
+  function isLeftModal(element) {
+    const ele = element.getBoundingClientRect();
+    if (
+      ele.left < 100 &&
+      ele.width <= 400 &&
+      ele.height >= window.innerHeight / 2
+    ) {
+      return true;
+    }
+    return false;
   }
 
   function importantModals(element) {
